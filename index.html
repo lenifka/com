@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наши Воспоминания❤️</title>
+    <meta name="description" content="Наши прекрасные моменты вместе. С Новым Годом! ✨">
+    
+    <!-- Open Graph / Facebook, Telegram, Viber, WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Наши Воспоминания - Новогодний Подарок">
+    <meta property="og:description" content="Наши прекрасные моменты вместе. С Новым Годом! ✨">
+    <meta property="og:image" content="img/og-preview.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="">
+    <meta property="og:site_name" content="Наши Воспоминания">
+    <meta property="og:locale" content="ru_RU">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Наши Воспоминания - Новогодний Подарок">
+    <meta name="twitter:description" content="Наши прекрасные моменты вместе. С Новым Годом! ✨">
+    <meta name="twitter:image" content="img/og-preview.png">
+    
+    <!-- Дополнительные теги для мессенджеров -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <link rel="icon" type="image/svg+xml" href="img/icon.png">
+    <link rel="alternate icon" href="img/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Новогодний снег -->
+    <div class="snowflakes" aria-hidden="true">
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+    </div>
+
+    <!-- Звезды на фоне -->
+    <div class="stars"></div>
+
+    <!-- Экран входа -->
+    <div class="entry-screen" id="entryScreen">
+        <div class="hearts-container">
+            <div class="heart-item" data-index="1">❤️</div>
+            <div class="heart-item" data-index="2">💖</div>
+            <div class="heart-item" data-index="3">💕</div>
+            <div class="heart-item" data-index="4">💗</div>
+        </div>
+        <div class="entry-error" id="entryError"></div>
+    </div>
+
+    <!-- Заголовок -->
+    <header class="header">
+        <div class="container">
+            <h1 class="title">Наши Воспоминания</h1>
+            <p class="subtitle">С Новым Годом! ✨</p>
+        </div>
+    </header>
+
+    <!-- Галерея -->
+    <main class="main">
+        <div class="container">
+            <div class="gallery" id="gallery">
+                <!-- Фотографии будут добавлены через JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Lightbox для полноэкранного просмотра -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <button class="lightbox-prev" id="lightboxPrev">‹</button>
+        <button class="lightbox-next" id="lightboxNext">›</button>
+        <div class="lightbox-image" id="lightboxImage"></div>
+        <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
+
