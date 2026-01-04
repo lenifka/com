@@ -256,7 +256,7 @@ function createGallery() {
             video.src = photo.src;
             video.className = 'photo-image';
             video.preload = 'metadata';
-            video.muted = true;
+            video.muted = false; // Включаем звук для ручного воспроизведения
             video.style.opacity = '0';
             video.style.position = 'relative';
             video.style.zIndex = '1';
@@ -298,6 +298,8 @@ function createGallery() {
                             if (btn) btn.style.display = 'flex';
                         }
                     });
+                    // Включаем звук и воспроизводим видео
+                    video.muted = false;
                     video.play();
                     playButton.style.display = 'none';
                 } else {
