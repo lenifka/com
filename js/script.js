@@ -24,7 +24,12 @@ function extractDateFromFilename(filename) {
         match = filename.match(/photo_(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})-(\d{2})/);
     }
     
-    // Формат 5: YYYYMMDD (например: 20240830.mp4)
+    // Формат 5: YYYY-MM-DD_HH-MM-SS (например: 2026-01-04_22-16-16.mp4)
+    if (!match) {
+        match = filename.match(/(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})-(\d{2})/);
+    }
+    
+    // Формат 6: YYYYMMDD (например: 20240830.mp4)
     if (!match) {
         match = filename.match(/(\d{4})(\d{2})(\d{2})\.(jpg|mp4)/);
         if (match) {
@@ -116,7 +121,12 @@ const allPhotos = [
     { src: 'img/20251227_192630.jpg', caption: 'Окутаны теплом и живой грелкой💞🐶' },
     { src: 'img/photo_2026-01-02_20-10-50.jpg', caption: 'У тебя классные друзья!<br>А ты классная у них😊' },
     { src: 'img/photo_2026-01-04_22-13-05.jpg', caption: 'Моя соска🤭' },
-    { src: 'img/2026-01-04_22-16-16.mp4', caption: 'Баловница-рукавица🙃' }
+    { src: 'img/2026-01-04_22-16-16.mp4', caption: 'Баловница-рукавица🙃' },
+    { src: 'img/photo_2026-01-18_11-55-23.jpg', caption: 'Нам тепло!☺️' },
+    { src: 'img/photo_2026-01-18_11-55-24.jpg', caption: 'Ну какие!😍' },
+    { src: 'img/photo_2026-01-25_11-55-23.jpg', caption: 'Красотка моя' },
+    { src: 'img/photo_2026-01-25_11-55-24.jpg', caption: 'Идеально вписываешься в атмосферу, а она в тебя:)' },
+    { src: 'img/photo_2026-01-25_11-55-25.jpg', caption: 'Нам попадаются самые красивые виде. Может нужны двое что-то их увидеть...' },
 ];
 
 // Массив подписей по умолчанию (используется если подпись не указана)
@@ -198,7 +208,7 @@ function updateAudioIcons() {
 function toggleAudio() {
     if (!globalAudio) {
         globalAudio = document.createElement('audio');
-        globalAudio.src = 'img/МыИдеальнаяПара.mp3';
+        globalAudio.src = 'img/music1.mp3';
         globalAudio.preload = 'auto';
         
         globalAudio.addEventListener('play', () => {
