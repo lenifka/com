@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Наши Воспоминания❤️</title>
-    <meta name="description" content="Наши прекрасные моменты вместе. С Новым Годом! ✨">
+    <meta name="description" content="Наши прекрасные моменты вместе ❤️">
     
     <!-- Open Graph / Facebook, Telegram, Viber, WhatsApp -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Наши Воспоминания - Новогодний Подарок">
-    <meta property="og:description" content="Наши прекрасные моменты вместе. С Новым Годом! ✨">
+    <meta property="og:title" content="Наши Воспоминания">
+    <meta property="og:description" content="Наши прекрасные моменты вместе ❤️">
     <meta property="og:image" content="img/og-preview.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
@@ -20,12 +20,12 @@
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Наши Воспоминания - Новогодний Подарок">
-    <meta name="twitter:description" content="Наши прекрасные моменты вместе. С Новым Годом! ✨">
+    <meta name="twitter:title" content="Наши Воспоминания">
+    <meta name="twitter:description" content="Наши прекрасные моменты вместе ❤️">
     <meta name="twitter:image" content="img/og-preview.png">
     
     <!-- Дополнительные теги для мессенджеров -->
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#e96da6">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
@@ -38,24 +38,30 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Новогодний снег -->
+    <!-- Лепестки и сердечки на фоне (как в olchasi) -->
     <div class="snowflakes" aria-hidden="true">
-        <div class="snowflake">❄</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
+        <div class="snowflake">🌸</div>
+        <div class="snowflake">💕</div>
+        <div class="snowflake">🌷</div>
+        <div class="snowflake">❤️</div>
+        <div class="snowflake">🌸</div>
+        <div class="snowflake">💖</div>
+        <div class="snowflake">🌺</div>
+        <div class="snowflake">💕</div>
+        <div class="snowflake">🌸</div>
+        <div class="snowflake">❤️</div>
+        <div class="snowflake">🌷</div>
+        <div class="snowflake">💖</div>
     </div>
 
-    <!-- Звезды на фоне -->
-    <div class="stars"></div>
+    <!-- Счётчик времени вместе -->
+    <div class="together-counter">
+        <span class="together-counter__label">Любим друг друга уже:</span>
+        <div class="together-counter__wrap">
+            <span class="together-counter__value" id="togetherCounter" aria-live="polite">—</span>
+            <span class="together-counter__heart" aria-hidden="true">❤️</span>
+        </div>
+    </div>
 
     <!-- Экран входа -->
     <div class="entry-screen" id="entryScreen">
@@ -72,7 +78,6 @@
     <header class="header">
         <div class="container">
             <h1 class="title">Наши Воспоминания</h1>
-            <p class="subtitle">С Новым Годом! ✨</p>
         </div>
     </header>
 

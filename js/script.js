@@ -1,3 +1,6 @@
+// На время разработки: true — сразу показывать галерею без экрана с сердечками-паролем
+const SKIP_ENTRY_SCREEN = false;
+
 // Массив названий месяцев
 const months = [
     'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
@@ -107,7 +110,7 @@ const allPhotos = [
     { src: 'img/20250911_191033.jpg', caption: 'Вместе мы на высоте😎' },
     { src: 'img/20250911_192257.mp4', caption: 'Качеликии! ухуахуаху' },
     { src: 'img/20250920_174009.jpg', caption: 'Наш любищий нос🐽' },
-    { src: 'img/20250921_145236.jpg'},
+    { src: 'img/20250921_145236.jpg' },
     { src: 'img/photo_2025-09-30_21-51-17.jpg', caption: 'Кусный чай - наше всё🫖😋' },
     { src: 'img/photo_2025-10-12_13-36-44.jpg', caption: 'Рядом с тобой нужны часы🕒<br>Время летит, как Джесси бежит гулять' },
     { src: 'img/20251019_153004.jpg', caption: 'Люблю тебя радовать😚' },
@@ -126,7 +129,13 @@ const allPhotos = [
     { src: 'img/photo_2026-01-18_11-55-24.jpg', caption: 'Ну какие!😍' },
     { src: 'img/photo_2026-01-25_11-55-23.jpg', caption: 'Красотка моя' },
     { src: 'img/photo_2026-01-25_11-55-24.jpg', caption: 'Идеально вписываешься в атмосферу, а она в тебя:)' },
-    { src: 'img/photo_2026-01-25_11-55-25.jpg', caption: 'Нам попадаются самые красивые виде. Может нужны двое что-то их увидеть...' },
+    { src: 'img/photo_2026-01-25_11-55-25.jpg', caption: 'Нам попадаются самые красивые виде. Может нужны двое что-бы их увидеть...' },
+    { src: 'img/20260215_213031.jpg', caption: 'Наша ораньжевая живонтина🏀' },
+    { src: 'img/20260328_163347.png', caption: 'Это мы!' },
+    { src: 'img/20260328_231816.jpg', caption: 'Во какая ты у меня сексуашка!' },
+    { src: 'img/20260329_161317.jpg' },
+    { src: 'img/20260329_163347.jpg', caption: 'Заяц! (не собака)' },
+    { src: 'img/photo_2026-03-29_23-37-03.jpg', caption: 'Руль)' },
 ];
 
 // Массив подписей по умолчанию (используется если подпись не указана)
@@ -189,26 +198,42 @@ let currentPhotoIndex = 0;
 
 // Глобальные переменные для синхронизации аудио
 let globalAudio = null;
-let galleryPlayIcon = null;
+let globalAudioTrack = null;
 let lightboxPlayIcon = null;
+
+function audioUrlForPhotoSrc(photoSrc) {
+    return photoSrc === 'img/20260329_161317.jpg' ? 'img/open-eyes.mp3' : 'img/music1.mp3';
+}
 
 // Массив для хранения всех видео элементов
 let allVideos = [];
 
-// Функция для обновления иконок во всех местах
+// Функция для обновления иконок во всех местах (у каждого голосового фото своя кнопка в галерее)
 function updateAudioIcons() {
-    if (globalAudio) {
-        const iconSrc = globalAudio.paused ? 'img/play-button.svg' : 'img/pause.svg';
-        if (galleryPlayIcon) galleryPlayIcon.src = iconSrc;
-        if (lightboxPlayIcon) lightboxPlayIcon.src = iconSrc;
+    const playing = globalAudio && !globalAudio.paused;
+    document.querySelectorAll('#gallery .audio-play-button[data-photo-src]').forEach((btn) => {
+        const photoSrc = btn.dataset.photoSrc;
+        const icon = btn.querySelector('.audio-play-icon');
+        if (!icon || !photoSrc) return;
+        const expectedUrl = audioUrlForPhotoSrc(photoSrc);
+        const thisTrackPlaying = playing && globalAudioTrack === expectedUrl;
+        icon.src = thisTrackPlaying ? 'img/pause.svg' : 'img/play-button.svg';
+    });
+    if (lightboxPlayIcon && photos[currentPhotoIndex]) {
+        const photo = photos[currentPhotoIndex];
+        if (photo.src === 'img/20250921_145236.jpg' || photo.src === 'img/20260329_161317.jpg') {
+            const expectedUrl = audioUrlForPhotoSrc(photo.src);
+            const thisTrackPlaying = playing && globalAudioTrack === expectedUrl;
+            lightboxPlayIcon.src = thisTrackPlaying ? 'img/pause.svg' : 'img/play-button.svg';
+        }
     }
 }
 
-// Функция для переключения аудио
-function toggleAudio() {
+// Функция для переключения аудио (голосовые фото: 20250921 — music1, 20260329 — open-eyes)
+function toggleAudio(photoSrc) {
+    const audioUrl = audioUrlForPhotoSrc(photoSrc);
     if (!globalAudio) {
         globalAudio = document.createElement('audio');
-        globalAudio.src = 'img/music1.mp3';
         globalAudio.preload = 'auto';
         
         globalAudio.addEventListener('play', () => {
@@ -224,8 +249,14 @@ function toggleAudio() {
         });
     }
     
+    if (globalAudioTrack !== audioUrl) {
+        globalAudio.pause();
+        globalAudio.src = audioUrl;
+        globalAudioTrack = audioUrl;
+    }
+    
     if (globalAudio.paused) {
-        globalAudio.play();
+        globalAudio.play().catch(() => {});
     } else {
         globalAudio.pause();
     }
@@ -381,7 +412,7 @@ function createGallery() {
         
         let caption;
         
-        if (photo.src === 'img/20250921_145236.jpg') {
+        if (photo.src === 'img/20250921_145236.jpg' || photo.src === 'img/20260329_161317.jpg') {
             // Специальная подпись с аудиоплеером
             caption = document.createElement('div');
             caption.className = 'photo-caption';
@@ -398,6 +429,7 @@ function createGallery() {
             // Создаём кнопку play/pause слева
             const audioButton = document.createElement('div');
             audioButton.className = 'audio-play-button';
+            audioButton.dataset.photoSrc = photo.src;
             audioButton.style.cursor = 'pointer';
             audioButton.style.width = '30px';
             audioButton.style.height = '40px';
@@ -421,10 +453,7 @@ function createGallery() {
             voiceGif.style.height = '50px';
             voiceGif.style.flexShrink = '0';
             
-            // Сохраняем ссылку на иконку для синхронизации
-            galleryPlayIcon = playIcon;
-            
-            // Обновляем иконку при загрузке
+            // Обновляем иконки при загрузке
             if (globalAudio) {
                 updateAudioIcons();
             }
@@ -432,7 +461,7 @@ function createGallery() {
             // Обработчик клика на кнопку
             audioButton.addEventListener('click', (e) => {
                 e.stopPropagation();
-                toggleAudio();
+                toggleAudio(photo.src);
             });
             
             audioContainer.appendChild(audioButton);
@@ -557,8 +586,7 @@ function openLightbox(index) {
     }
     
     // В lightbox показываем полную подпись с датой или аудиоплеер
-    if (photo.src === 'img/20250921_145236.jpg') {
-        // Специальная подпись с аудиоплеером для lightbox
+    if (photo.src === 'img/20250921_145236.jpg' || photo.src === 'img/20260329_161317.jpg') {
         lightboxCaption.innerHTML = '';
         lightboxCaption.style.display = 'flex';
         lightboxCaption.style.flexDirection = 'column';
@@ -610,7 +638,7 @@ function openLightbox(index) {
         // Обработчик клика на кнопку
         audioButton.addEventListener('click', (e) => {
             e.stopPropagation();
-            toggleAudio();
+            toggleAudio(photo.src);
         });
         
         audioContainer.appendChild(audioButton);
@@ -749,8 +777,7 @@ function updateLightboxImage() {
         }
         
         // В lightbox показываем полную подпись с датой или аудиоплеер
-        if (photo.src === 'img/20250921_145236.jpg') {
-            // Специальная подпись с аудиоплеером для lightbox
+        if (photo.src === 'img/20250921_145236.jpg' || photo.src === 'img/20260329_161317.jpg') {
             lightboxCaption.innerHTML = '';
             lightboxCaption.style.display = 'flex';
             lightboxCaption.style.flexDirection = 'column';
@@ -799,10 +826,9 @@ function updateLightboxImage() {
                 updateAudioIcons();
             }
             
-            // Обработчик клика на кнопку
             audioButton.addEventListener('click', (e) => {
                 e.stopPropagation();
-                toggleAudio();
+                toggleAudio(photo.src);
             });
             
             audioContainer.appendChild(audioButton);
@@ -935,9 +961,63 @@ function initEntryScreen() {
     });
 }
 
+// Счётчик времени вместе (тик каждую секунду)
+function initTogetherCounter() {
+    const el = document.getElementById('togetherCounter');
+    const heartEl = document.querySelector('.together-counter__heart');
+    if (!el) return;
+    // 31 августа 2024, 20:00
+    const startDate = new Date(2024, 7, 31, 20, 0, 0);
+
+    function daysWord(d) {
+        if (d % 10 === 1 && d % 100 !== 11) return 'день';
+        if (d % 10 >= 2 && d % 10 <= 4 && (d % 100 < 10 || d % 100 >= 20)) return 'дня';
+        return 'дней';
+    }
+
+    function pad(n) {
+        return String(n).padStart(2, '0');
+    }
+
+    function beatHeart() {
+        if (!heartEl) return;
+        heartEl.classList.remove('together-counter__heart--beat');
+        void heartEl.offsetWidth;
+        heartEl.classList.add('together-counter__heart--beat');
+        setTimeout(() => heartEl.classList.remove('together-counter__heart--beat'), 400);
+    }
+
+    function tick() {
+        const now = new Date();
+        const diffMs = now - startDate;
+        if (diffMs < 0) {
+            el.textContent = 'Скоро вместе ❤️';
+            return;
+        }
+        const totalSeconds = Math.floor(diffMs / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const rest = totalSeconds % 86400;
+        const hours = Math.floor(rest / 3600);
+        const minutes = Math.floor((rest % 3600) / 60);
+        const seconds = rest % 60;
+        el.textContent = `${days} ${daysWord(days)} ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        beatHeart();
+    }
+    tick();
+    setInterval(tick, 1000);
+}
+
 // Обработчики событий
 document.addEventListener('DOMContentLoaded', () => {
-    initEntryScreen();
+    initTogetherCounter();
+
+    if (SKIP_ENTRY_SCREEN) {
+        document.getElementById('entryScreen').classList.add('hidden');
+        createGallery();
+        initScrollAnimations();
+    } else {
+        initEntryScreen();
+    }
     
     // Lightbox элементы
     const lightboxClose = document.getElementById('lightboxClose');
